@@ -1,0 +1,5 @@
+rootProject.name = 'pet-plate'
+include 'web'
+include 'domain'
+include 'persistence'
+include 'transversal'
