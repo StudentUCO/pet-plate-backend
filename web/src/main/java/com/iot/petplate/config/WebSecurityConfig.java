@@ -1,5 +1,7 @@
-package com.iot.petplate.security;
+package com.iot.petplate.config;
 
+import com.iot.petplate.security.JWTAuthenticationFilter;
+import com.iot.petplate.security.JWTAuthorizationFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @AllArgsConstructor
-public class SecurityConfig {
+public class WebSecurityConfig {
 
     private final UserDetailsService userDetailsService;
     private final JWTAuthorizationFilter jwtAuthorizationFilter;
@@ -26,10 +28,11 @@ public class SecurityConfig {
         jwtAuthenticationFilter.setAuthenticationManager(authManager);
         jwtAuthenticationFilter.setFilterProcessesUrl("/login");
 
-        return http.csrf().disable()
+        return http
+                .cors()
+                .and()
+                .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/public/**")
-                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
