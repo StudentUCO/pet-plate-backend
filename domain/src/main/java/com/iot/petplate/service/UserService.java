@@ -16,7 +16,7 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
-    public Optional<LoginUserDTO> findBy(String usernameOrEmail) {
+    public Optional<SignUpUserDTO> findBy(String usernameOrEmail) {
         return userRepository.findBy(usernameOrEmail);
     }
 

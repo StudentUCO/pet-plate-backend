@@ -1,5 +1,6 @@
 package com.iot.petplate.security;
 
+import com.iot.petplate.dto.UserDTO;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             UsernamePasswordAuthenticationToken usernamePAT = TokenUtil.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(usernamePAT);
         }
+
         filterChain.doFilter(request, response);
     }
 }

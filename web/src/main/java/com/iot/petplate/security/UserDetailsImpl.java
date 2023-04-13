@@ -1,6 +1,7 @@
 package com.iot.petplate.security;
 
-import com.iot.petplate.dto.LoginUserDTO;
+import com.iot.petplate.dto.SignUpUserDTO;
+import com.iot.petplate.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +11,7 @@ import java.util.Collections;
 
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
-    private final LoginUserDTO loginUserDTO;
+    private final SignUpUserDTO signUpUserDTO;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -19,12 +20,12 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return loginUserDTO.getPassword();
+        return signUpUserDTO.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return loginUserDTO.getUsername();
+        return signUpUserDTO.getFullName();
     }
 
     @Override
@@ -47,7 +48,7 @@ public class UserDetailsImpl implements UserDetails {
         return true;
     }
 
-    public String getEmail() {
-        return loginUserDTO.getEmail();
+    public UserDTO getUserDTO() {
+        return signUpUserDTO.toUserDTO();
     }
 }

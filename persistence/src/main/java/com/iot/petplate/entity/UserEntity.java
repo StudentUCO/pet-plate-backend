@@ -2,6 +2,7 @@ package com.iot.petplate.entity;
 
 import com.iot.petplate.domain.UserDomain;
 import com.iot.petplate.dto.LoginUserDTO;
+import com.iot.petplate.dto.SignUpUserDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,9 +40,9 @@ public class UserEntity {
         );
     }
 
-    public LoginUserDTO toLoginUserDTO() {
-        return new LoginUserDTO(
-                getFullName(), getEmail(), getPassword()
+    public SignUpUserDTO toSignUpUserDTO() {
+        return new SignUpUserDTO(
+                getId(), getFullName(), getPhoneNumber(), getEmail(), getPassword()
         );
     }
 }

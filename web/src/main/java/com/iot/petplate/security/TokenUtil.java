@@ -1,5 +1,7 @@
 package com.iot.petplate.security;
 
+import com.iot.petplate.dto.UserDTO;
+import com.project.util.UtilJson;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -15,16 +17,18 @@ public class TokenUtil {
     private static final String ACCESS_TOKEN_SECRET = "8778516a6da4e71ce8b5902d710e10891279148da692be0371af1e8aacd2f20b";
     private static final Long ACCESS_TOKEN_VALIDITY_SECONDS = 3_600L;
 
-    public static String createToken(String username, String email) {
+    private TokenUtil() {
+    }
+
+    public static String createToken(UserDTO userDTO) {
         long expirationTime = ACCESS_TOKEN_VALIDITY_SECONDS * 1_000;
         Date expirationDate = new Date(System.currentTimeMillis() + expirationTime);
 
         Map<String, Object> extra = new HashMap<>();
-        extra.put("username", username);
-        extra.put("email", email);
+        extra.put("user", UtilJson.getGson().toJson(userDTO));
 
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(userDTO.getEmail())
                 .setExpiration(expirationDate)
                 .addClaims(extra)
                 .signWith(Keys.hmacShaKeyFor(ACCESS_TOKEN_SECRET.getBytes()))
@@ -39,9 +43,9 @@ public class TokenUtil {
                     .parseClaimsJws(token)
                     .getBody();
 
-            String email = claims.getSubject();
-
-            return new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());
+            String userJson = claims.get("user", String.class);
+            UserDTO userDTO = UtilJson.getGson().fromJson(userJson, UserDTO.class);
+            return new UsernamePasswordAuthenticationToken(userDTO, null, Collections.emptyList());
         } catch (JwtException jwtException) {
             return null;
         }
