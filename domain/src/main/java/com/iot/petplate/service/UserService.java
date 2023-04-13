@@ -1,25 +1,30 @@
 package com.iot.petplate.service;
 
 import com.iot.petplate.domain.UserDomain;
+import com.iot.petplate.dto.LoginUserDTO;
+import com.iot.petplate.dto.SignUpUserDTO;
 import com.iot.petplate.dto.UserDTO;
-import com.project.UtilList;
+import com.iot.petplate.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UserService {
-    public List<UserDTO> getDefaultList() {
-        UserDomain userDomain = new UserDomain("Vive100", "test@test", "$2a$10$VovJ2UWNRg84u1QPppILb.lEuGkt7Imye8oNji72Rie39PZu1E2bW");
-        List<UserDomain> userDomainList = UtilList.defaultFrom(userDomain, 10);
-        return userDomainList.stream().map(UserDomain::toDTO).toList();
+    private final UserRepository userRepository;
+
+    public Optional<LoginUserDTO> findBy(String usernameOrEmail) {
+        return userRepository.findBy(usernameOrEmail);
     }
 
-    public Optional<UserDTO> findBy(String usernameOrEmail) {
-        return getDefaultList().stream().filter(userDTO ->
-                userDTO.getUsername().equals(usernameOrEmail) ||
-                        userDTO.getEmail().equals(usernameOrEmail))
-                .findFirst();
+    public List<UserDTO> getAllUserDTOList() {
+        return userRepository.getAllUserDTOList();
+    }
+
+    public UserDTO signUpUser(SignUpUserDTO signUpUserDTO) {
+        return userRepository.signUpUser(new UserDomain(signUpUserDTO));
     }
 }

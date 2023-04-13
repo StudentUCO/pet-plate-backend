@@ -1,6 +1,6 @@
 package com.iot.petplate.security;
 
-import com.iot.petplate.dto.UserDTO;
+import com.iot.petplate.dto.LoginUserDTO;
 import com.iot.petplate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,9 +19,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        UserDTO userDTO = userService.findBy(usernameOrEmail)
+        LoginUserDTO loginUserDTO = userService.findBy(usernameOrEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("El usuario " + usernameOrEmail + " no existe."));
 
-        return new UserDetailsImpl(userDTO);
+        return new UserDetailsImpl(loginUserDTO);
     }
 }

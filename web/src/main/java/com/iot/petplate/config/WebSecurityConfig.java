@@ -33,6 +33,8 @@ public class WebSecurityConfig {
                 .and()
                 .csrf().disable()
                 .authorizeHttpRequests()
+                .requestMatchers("/api/user/public/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
