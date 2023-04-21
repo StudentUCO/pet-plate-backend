@@ -1,44 +1,42 @@
 package com.iot.petplate.controller;
 
 import com.iot.petplate.dto.FeederDTO;
-import com.project.util.UtilList;
+import com.iot.petplate.dto.UserDTO;
+import com.iot.petplate.service.FeederService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 @RequestMapping("/api/feeder")
+@RequiredArgsConstructor
 public class FeederController {
+    private final FeederService feederService;
     @GetMapping("/get-all")
-    public ResponseEntity<List<FeederDTO>> getAllFeederDTOList() {
-        FeederDTO feederDTO = new FeederDTO();
-        feederDTO.setId(1);
-        feederDTO.setSerial("4164534232342");
-        feederDTO.setName("Alimentador de Pol");
-        List<FeederDTO> feederDTOList = UtilList.defaultFrom(feederDTO, 5);
-
-        AtomicInteger cont = new AtomicInteger(0);
-        feederDTOList.forEach(feeder -> feeder.setId(cont.incrementAndGet()));
-        return ResponseEntity.ok(feederDTOList);
+    public ResponseEntity<List<FeederDTO>> getAllFeederDTOListByUser() {
+        UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(feederService.getAllFeederListByUser(userDTO));
     }
 
     @PostMapping("/create")
     public ResponseEntity<FeederDTO> create(@RequestBody FeederDTO feederDTO) {
-        feederDTO.setId(6);
-        return ResponseEntity.ok(feederDTO);
+        UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        feederDTO.setUserDTO(userDTO);
+        return ResponseEntity.ok(feederService.create(feederDTO));
     }
 
     @PutMapping("/update")
     public ResponseEntity<FeederDTO> update(@RequestBody FeederDTO feederDTO) {
-        return ResponseEntity.ok(feederDTO);
+        UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        feederDTO.setUserDTO(userDTO);
+        return ResponseEntity.ok(feederService.update(feederDTO));
     }
 
-    @PutMapping("/delete/{id}")
-    public ResponseEntity<FeederDTO> update(@PathVariable("id") Integer id) {
-        FeederDTO feederDTO = new FeederDTO();
-        feederDTO.setId(id);
-        return ResponseEntity.ok(feederDTO);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<FeederDTO> delete(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(feederService.delete(id));
     }
 }

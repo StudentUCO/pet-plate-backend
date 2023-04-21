@@ -10,4 +10,8 @@ public class UserDTO {
     private String fullName;
     private String phoneNumber;
     private String email;
+
+    public UserDTO(Integer id) {
+        this.id = id;
+    }
 }

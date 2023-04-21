@@ -1,7 +1,6 @@
 package com.iot.petplate.repository;
 
 import com.iot.petplate.domain.UserDomain;
-import com.iot.petplate.dto.LoginUserDTO;
 import com.iot.petplate.dto.SignUpUserDTO;
 import com.iot.petplate.dto.UserDTO;
 

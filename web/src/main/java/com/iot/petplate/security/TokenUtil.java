@@ -7,6 +7,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Collections;
 import java.util.Date;
@@ -45,6 +46,7 @@ public class TokenUtil {
 
             String userJson = claims.get("user", String.class);
             UserDTO userDTO = UtilJson.getGson().fromJson(userJson, UserDTO.class);
+
             return new UsernamePasswordAuthenticationToken(userDTO, null, Collections.emptyList());
         } catch (JwtException jwtException) {
             return null;
