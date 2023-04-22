@@ -7,7 +7,7 @@ import com.iot.petplate.dto.PetScheduleDTO;
 import java.util.List;
 
 public interface PetScheduleRepository {
-    List<PetScheduleDTO> getAllPetScheduleByPet(PetDTO petDTO);
+    List<PetScheduleDTO> getAllPetScheduleByPet(Integer petId);
     List<PetScheduleDomain> createAll(List<PetScheduleDomain> petScheduleDomainList);
     void deleteAll(List<PetScheduleDomain> petScheduleDomainList);
 }

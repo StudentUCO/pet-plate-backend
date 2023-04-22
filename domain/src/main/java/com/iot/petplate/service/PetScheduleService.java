@@ -16,8 +16,8 @@ public class PetScheduleService {
 
     private final PetScheduleRepository petScheduleRepository;
 
-    public List<PetScheduleDTO> getAllPetScheduleByPet(PetDTO petDTO) {
-        return petScheduleRepository.getAllPetScheduleByPet(petDTO);
+    public List<PetScheduleDTO> getAllPetScheduleByPet(Integer petId) {
+        return petScheduleRepository.getAllPetScheduleByPet(petId);
     }
 
     public List<PetScheduleDTO> createPetSchedule(List<PetScheduleDTO> petScheduleDTOS) {
