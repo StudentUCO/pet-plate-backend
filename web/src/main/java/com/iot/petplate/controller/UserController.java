@@ -1,6 +1,7 @@
 package com.iot.petplate.controller;
 
 import com.iot.petplate.dto.SignUpUserDTO;
+import com.iot.petplate.dto.UserAndPetDTO;
 import com.iot.petplate.dto.UserDTO;
 import com.iot.petplate.service.UserService;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,11 @@ public class UserController {
     @GetMapping("/default-list")
     public ResponseEntity<List<UserDTO>> getDefaultList() {
         return ResponseEntity.ok(userService.getAllUserDTOList());
+    }
+
+    @GetMapping("/public/get-by-feeder/{serial}")
+    public ResponseEntity<UserAndPetDTO> getUserAndPetByFeederSerial(@PathVariable("serial") String serial) {
+        return ResponseEntity.ok(userService.getUserAndPetByFeederSerial(serial));
     }
 
     @PostMapping("/public/sign-up")

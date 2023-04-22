@@ -3,6 +3,7 @@ package com.iot.petplate.impl;
 import com.iot.petplate.crud.UserCrud;
 import com.iot.petplate.domain.UserDomain;
 import com.iot.petplate.dto.SignUpUserDTO;
+import com.iot.petplate.dto.UserAndPetDTO;
 import com.iot.petplate.dto.UserDTO;
 import com.iot.petplate.entity.UserEntity;
 import com.iot.petplate.repository.UserRepository;
@@ -25,6 +26,11 @@ public class UserImpl implements UserRepository {
     @Override
     public Optional<SignUpUserDTO> findBy(String usernameOrEmail) {
         return userCrud.findUserEntityByEmail(usernameOrEmail).map(UserEntity::toSignUpUserDTO);
+    }
+
+    @Override
+    public UserAndPetDTO getUserAndPetByFeederSerial(String serial) {
+        return userCrud.getUserAndPetByFeederSerial(serial);
     }
 
     @Override

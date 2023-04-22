@@ -3,6 +3,7 @@ package com.iot.petplate.service;
 import com.iot.petplate.domain.UserDomain;
 import com.iot.petplate.dto.LoginUserDTO;
 import com.iot.petplate.dto.SignUpUserDTO;
+import com.iot.petplate.dto.UserAndPetDTO;
 import com.iot.petplate.dto.UserDTO;
 import com.iot.petplate.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,10 @@ public class UserService {
 
     public List<UserDTO> getAllUserDTOList() {
         return userRepository.getAllUserDTOList();
+    }
+
+    public UserAndPetDTO getUserAndPetByFeederSerial(String serial) {
+        return userRepository.getUserAndPetByFeederSerial(serial);
     }
 
     public UserDTO signUpUser(SignUpUserDTO signUpUserDTO) {
