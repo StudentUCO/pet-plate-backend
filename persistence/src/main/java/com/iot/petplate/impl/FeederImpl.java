@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
 @AllArgsConstructor
@@ -25,8 +24,7 @@ public class FeederImpl implements FeederRepository {
 
     @Override
     public List<FeederDTO> getAllFeederListByUser(UserDTO userDTO) {
-        return feederCrud.findAllByUserId(userDTO.getId()).stream().map(FeederEntity::toDTO)
-                .collect(Collectors.toList());
+        return feederCrud.findAllByUserId(userDTO.getId()).stream().map(FeederEntity::toDTO).toList();
     }
 
     @Override

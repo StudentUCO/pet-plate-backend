@@ -12,4 +12,8 @@ public class FeederDTO {
     private String serial;
     private String name;
     private UserDTO userDTO;
+
+    public FeederDTO(Integer id) {
+        setId(id);
+    }
 }

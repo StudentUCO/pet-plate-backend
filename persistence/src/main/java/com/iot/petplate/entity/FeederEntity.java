@@ -37,7 +37,7 @@ public class FeederEntity {
         feederDTO.setId(getId());
         feederDTO.setSerial(getSerial());
         feederDTO.setName(getName());
-        feederDTO.setUserDTO(new UserDTO(getUserId()));
+        feederDTO.setUserDTO(new UserDTO(getId()));
         return feederDTO;
     }
 

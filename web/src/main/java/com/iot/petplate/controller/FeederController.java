@@ -15,27 +15,27 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FeederController {
     private final FeederService feederService;
-    @GetMapping("/get-all")
+    @GetMapping()
     public ResponseEntity<List<FeederDTO>> getAllFeederDTOListByUser() {
         UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.ok(feederService.getAllFeederListByUser(userDTO));
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     public ResponseEntity<FeederDTO> create(@RequestBody FeederDTO feederDTO) {
         UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         feederDTO.setUserDTO(userDTO);
         return ResponseEntity.ok(feederService.create(feederDTO));
     }
 
-    @PutMapping("/update")
+    @PutMapping()
     public ResponseEntity<FeederDTO> update(@RequestBody FeederDTO feederDTO) {
         UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         feederDTO.setUserDTO(userDTO);
         return ResponseEntity.ok(feederService.update(feederDTO));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<FeederDTO> delete(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(feederService.delete(id));
     }
