@@ -12,8 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,25 +26,29 @@ public class FeederRequestServiceImpl implements FeederRequestService {
 
     @Override
     public void sendDataFedeer(List<PetScheduleDTO> petScheduleDTOS) {
-        try{
+        try {
             backendClient.sendDataFeeder(buildFeederRequestDTOs(petScheduleDTOS));
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new InvalidValueException(
                     e.getMessage(),
                     "No hay comunicación hacia el backend II");
         }
     }
 
-    private List<FeederRequestDTO> buildFeederRequestDTOs(List<PetScheduleDTO> petScheduleDTOS) {
+    private FeederRequestDTO buildFeederRequestDTOs(List<PetScheduleDTO> petScheduleDTOS) {
         UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<FeederDTO> feederDTOS = feederImpl.getAllFeederListByUser(userDTO);
-        String serial = feederDTOS.get(0).getSerial();
-        return petScheduleDTOS.stream().map(schedule -> {
-                    FeederRequestDTO feederRequestDTO = new FeederRequestDTO(schedule);
-                    feederRequestDTO.setSerial(serial);
-                    return feederRequestDTO;
-                })
-                .collect(Collectors.toList());
+        List<LocalTime> schedules = new ArrayList<>();
+
+        petScheduleDTOS.stream().map(schedule ->
+                schedules.add(schedule.getTime())
+        );
+
+        return FeederRequestDTO.builder()
+                .serial(feederDTOS.get(0).getSerial())
+                .cantidad(petScheduleDTOS.get(0).getPortion())
+                .horario(schedules)
+                .build();
     }
 
 }

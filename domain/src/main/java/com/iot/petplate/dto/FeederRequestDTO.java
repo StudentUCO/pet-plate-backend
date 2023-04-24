@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -15,11 +16,6 @@ public class FeederRequestDTO {
 
     private String serial;
     private Double cantidad;
-    private LocalTime horario;
+    private List<LocalTime> horario;
 
-    public FeederRequestDTO(PetScheduleDTO petScheduleDTO){
-        setSerial(petScheduleDTO.getPet().getFeeder().getSerial());
-        setCantidad(petScheduleDTO.getPortion());
-        setHorario(petScheduleDTO.getTime());
-    }
 }
