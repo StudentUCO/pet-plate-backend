@@ -7,6 +7,7 @@ import com.iot.petplate.dto.PetScheduleDTO;
 import com.iot.petplate.dto.UserDTO;
 import com.iot.petplate.impl.FeederImpl;
 import com.iot.petplate.service.FeederRequestService;
+import com.project.exception.InvalidValueException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,13 @@ public class FeederRequestServiceImpl implements FeederRequestService {
 
     @Override
     public void sendDataFedeer(List<PetScheduleDTO> petScheduleDTOS) {
-        backendClient.sendDataFeeder(buildFeederRequestDTOs(petScheduleDTOS));
+        try{
+            backendClient.sendDataFeeder(buildFeederRequestDTOs(petScheduleDTOS));
+        }catch (Exception e){
+            throw new InvalidValueException(
+                    e.getMessage(),
+                    "No hay comunicación hacia el backend II");
+        }
     }
 
     private List<FeederRequestDTO> buildFeederRequestDTOs(List<PetScheduleDTO> petScheduleDTOS) {
