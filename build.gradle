@@ -14,7 +14,7 @@ tasks.named('test') {
 dependencies {
 	api project(":transversal")
 	api 'org.projectlombok:lombok:1.18.26'
-	api 'org.springframework:spring-context:5.3.19'
+	api 'org.springframework:spring-context:6.0.6'
 }
 
 allprojects {
@@ -25,5 +25,7 @@ allprojects {
 	repositories {
 		mavenLocal()
 		mavenCentral()
+		maven { url 'https://repo.spring.io/milestone' }
+		maven { url 'https://repo1.maven.org/maven2/' }
 	}
 }
