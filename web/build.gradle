@@ -23,3 +23,8 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+bootJar {
+    enabled = true
+    archiveFileName = "pet-plate-v1.0.jar"
+}
