@@ -1,0 +1,36 @@
+version: "3"
+services:
+  frontend:
+    image: brayanesq/pet-plate-frontend:v1.1
+    ports:
+      - "80:80"
+    networks:
+      - pet-plate-red
+  backend:
+    image: brayanesq/pet-plate-backend:v1.0
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_URL=jdbc:postgresql://database:5432/postgres
+      - DATABASE_USERNAME=application
+      - DATABASE_PASSWORD=admin
+    networks:
+      - pet-plate-red
+  database:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=jdbc:postgresql://database:5432/postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "3.232.32.52:54321:5432"
+    networks:
+      - pet-plate-red
+
+volumes:
+  postgres_data:
+
+networks:
+  pet-plate-red:
