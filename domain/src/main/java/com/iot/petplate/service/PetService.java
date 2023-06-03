@@ -15,6 +15,10 @@ import java.util.List;
 public class PetService {
     private final PetRepository petRepository;
 
+    public PetDTO getById(Integer id) {
+        return petRepository.getById(id).orElse(new PetDomain()).toDTO();
+    }
+
     public List<PetDTO> getAllPetListByUser(UserDTO userDTO) {
         return petRepository.getAllPetListByUser(userDTO);
     }

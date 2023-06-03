@@ -15,6 +15,10 @@ import java.util.List;
 public class FeederService {
     private final FeederRepository feederRepository;
 
+    public FeederDTO getById(Integer id) {
+        return feederRepository.getById(id).orElse(new FeederDomain()).toDTO();
+    }
+
     public List<FeederDTO> getAllFeederListByUser(UserDTO userDTO) {
         return feederRepository.getAllFeederListByUser(userDTO);
     }

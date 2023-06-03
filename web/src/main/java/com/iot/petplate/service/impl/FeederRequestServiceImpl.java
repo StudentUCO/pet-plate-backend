@@ -1,20 +1,14 @@
 package com.iot.petplate.service.impl;
 
 import com.iot.petplate.client.http.BackendClient;
-import com.iot.petplate.dto.FeederDTO;
-import com.iot.petplate.dto.FeederRequestDTO;
-import com.iot.petplate.dto.PetScheduleDTO;
-import com.iot.petplate.dto.ScheduleDTO;
-import com.iot.petplate.dto.UserDTO;
-import com.iot.petplate.impl.FeederImpl;
+import com.iot.petplate.dto.*;
 import com.iot.petplate.service.FeederRequestService;
+import com.iot.petplate.service.FeederService;
+import com.iot.petplate.service.PetService;
 import com.project.exception.InvalidValueException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,8 +16,8 @@ import java.util.List;
 public class FeederRequestServiceImpl implements FeederRequestService {
 
     private final BackendClient backendClient;
-
-    private final FeederImpl feederImpl;
+    private final PetService petService;
+    private final FeederService feederService;
 
     @Override
     public void sendDataFedeer(List<PetScheduleDTO> petScheduleDTOS) {
@@ -37,26 +31,16 @@ public class FeederRequestServiceImpl implements FeederRequestService {
     }
 
     private FeederRequestDTO buildFeederRequestDTOs(List<PetScheduleDTO> petScheduleDTOS) {
-        UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<FeederDTO> feederDTOS = feederImpl.getAllFeederListByUser(userDTO);
-        List<LocalTime> schedules = new ArrayList<>();
-
-        List<ScheduleDTO> schedules1 = petScheduleDTOS.stream().map(schedule ->
-        new ScheduleDTO(schedule.getTime().toString(), schedule.getPortion())).toList();
-        
-    
+        PetDTO petDTO = petService.getById(petScheduleDTOS.get(0).getPet().getId());
+        FeederDTO feederDTO = feederService.getById(petDTO.getFeeder().getId());
+        List<ScheduleDTO> schedules = petScheduleDTOS.stream().map(schedule ->
+                new ScheduleDTO(schedule.getTime().toString(), schedule.getPortion())).toList();
 
         return FeederRequestDTO.builder()
-                .serial(feederDTOS.get(0).getSerial())
-                .schedules(schedules1).build();
+                .serial(feederDTO.getSerial())
+                .schedules(schedules).build();
 
 
-
-
-
-                
-
-        
     }
 
 }

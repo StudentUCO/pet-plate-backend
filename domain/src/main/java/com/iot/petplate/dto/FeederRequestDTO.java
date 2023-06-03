@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalTime;
 import java.util.List;
 
 @Data
@@ -13,8 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FeederRequestDTO {
-
     private String serial;
     private List<ScheduleDTO> schedules;
-
 }
