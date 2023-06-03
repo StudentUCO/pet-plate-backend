@@ -4,6 +4,7 @@ import com.iot.petplate.client.http.BackendClient;
 import com.iot.petplate.dto.FeederDTO;
 import com.iot.petplate.dto.FeederRequestDTO;
 import com.iot.petplate.dto.PetScheduleDTO;
+import com.iot.petplate.dto.ScheduleDTO;
 import com.iot.petplate.dto.UserDTO;
 import com.iot.petplate.impl.FeederImpl;
 import com.iot.petplate.service.FeederRequestService;
@@ -40,15 +41,22 @@ public class FeederRequestServiceImpl implements FeederRequestService {
         List<FeederDTO> feederDTOS = feederImpl.getAllFeederListByUser(userDTO);
         List<LocalTime> schedules = new ArrayList<>();
 
-        petScheduleDTOS.stream().map(schedule ->
-                schedules.add(schedule.getTime())
-        );
+        List<ScheduleDTO> schedules1 = petScheduleDTOS.stream().map(schedule ->
+        new ScheduleDTO(schedule.getTime().toString(), schedule.getPortion())).toList();
+        
+    
 
         return FeederRequestDTO.builder()
                 .serial(feederDTOS.get(0).getSerial())
-                .cantidad(petScheduleDTOS.get(0).getPortion())
-                .horario(schedules)
-                .build();
+                .schedules(schedules1).build();
+
+
+
+
+
+                
+
+        
     }
 
 }
