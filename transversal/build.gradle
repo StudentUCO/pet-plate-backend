@@ -7,4 +7,5 @@ jar.enabled=true
 
 dependencies {
     api 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.sun.mail:jakarta.mail:2.0.1'
 }
