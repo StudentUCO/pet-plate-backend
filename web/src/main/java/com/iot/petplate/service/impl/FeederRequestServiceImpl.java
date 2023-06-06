@@ -39,8 +39,6 @@ public class FeederRequestServiceImpl implements FeederRequestService {
         return FeederRequestDTO.builder()
                 .serial(feederDTO.getSerial())
                 .schedules(schedules).build();
-
-
     }
 
 }
