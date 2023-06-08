@@ -5,6 +5,7 @@ import com.iot.petplate.domain.PetScheduleDomain;
 import com.iot.petplate.dto.PetScheduleDTO;
 import com.iot.petplate.entity.PetScheduleEntity;
 import com.iot.petplate.repository.PetScheduleRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +25,7 @@ public class PetScheduleImpl implements PetScheduleRepository {
     }
 
     @Override
+    @Transactional
     public List<PetScheduleDomain> createAll(List<PetScheduleDomain> petScheduleDomainList) {
         deleteAll(petScheduleDomainList);
         List<PetScheduleEntity> petScheduleEntities = new ArrayList<>();
@@ -41,5 +43,10 @@ public class PetScheduleImpl implements PetScheduleRepository {
     @Override
     public void deleteAll(List<PetScheduleDomain> petScheduleDomainList) {
         petScheduleCrud.deleteAllByPetId(petScheduleDomainList.get(0).getPetId());
+    }
+
+    @Override
+    public void deleteAll(Integer petId) {
+        petScheduleCrud.deleteAllByPetId(petId);
     }
 }

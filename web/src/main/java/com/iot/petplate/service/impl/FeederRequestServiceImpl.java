@@ -9,6 +9,7 @@ import com.project.exception.InvalidValueException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -20,9 +21,9 @@ public class FeederRequestServiceImpl implements FeederRequestService {
     private final FeederService feederService;
 
     @Override
-    public void sendDataFedeer(List<PetScheduleDTO> petScheduleDTOS) {
+    public void sendDataFeeder(List<PetScheduleDTO> petScheduleDTOS) {
         try {
-            backendClient.sendDataFeeder(buildFeederRequestDTOs(petScheduleDTOS));
+            backendClient.sendDataFeeder(buildFeederRequestDTO(petScheduleDTOS));
         } catch (Exception e) {
             throw new InvalidValueException(
                     e.getMessage(),
@@ -30,15 +31,30 @@ public class FeederRequestServiceImpl implements FeederRequestService {
         }
     }
 
-    private FeederRequestDTO buildFeederRequestDTOs(List<PetScheduleDTO> petScheduleDTOS) {
+    @Override
+    public void sendEmptyDataFeederByPetId(Integer petId) {
+        try {
+            backendClient.sendDataFeeder(buildEmptyFeederRequestDTOByPetId(petId));
+        } catch (Exception e) {
+            throw new InvalidValueException(
+                    e.getMessage(),
+                    "No hay comunicación hacia el backend II");
+        }
+    }
+
+    private FeederRequestDTO buildFeederRequestDTO(List<PetScheduleDTO> petScheduleDTOS) {
         PetDTO petDTO = petService.getById(petScheduleDTOS.get(0).getPet().getId());
         FeederDTO feederDTO = feederService.getById(petDTO.getFeeder().getId());
         List<ScheduleDTO> schedules = petScheduleDTOS.stream().map(schedule ->
                 new ScheduleDTO(schedule.getTime().toString(), schedule.getPortion())).toList();
 
-        return FeederRequestDTO.builder()
-                .serial(feederDTO.getSerial())
-                .schedules(schedules).build();
+        return FeederRequestDTO.builder().serial(feederDTO.getSerial()).schedules(schedules).build();
+    }
+
+    private FeederRequestDTO buildEmptyFeederRequestDTOByPetId(Integer petId) {
+        PetDTO petDTO = petService.getById(petId);
+        FeederDTO feederDTO = feederService.getById(petDTO.getFeeder().getId());
+        return FeederRequestDTO.builder().serial(feederDTO.getSerial()).schedules(Collections.emptyList()).build();
     }
 
 }

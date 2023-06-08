@@ -1,7 +1,6 @@
 package com.iot.petplate.service;
 
 import com.iot.petplate.domain.PetScheduleDomain;
-import com.iot.petplate.dto.PetDTO;
 import com.iot.petplate.dto.PetScheduleDTO;
 import com.iot.petplate.repository.PetScheduleRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +29,12 @@ public class PetScheduleService {
         List<PetScheduleDTO> petScheduleDTOList = new ArrayList<>();
 
         petScheduleDomainsResponse.forEach(petScheduleDomain ->
-            petScheduleDTOList.add(petScheduleDomain.toDTO()));
+                petScheduleDTOList.add(petScheduleDomain.toDTO()));
 
         return petScheduleDTOList;
+    }
+
+    public void deleteAllPetSchedule(Integer petId) {
+        petScheduleRepository.deleteAll(petId);
     }
 }

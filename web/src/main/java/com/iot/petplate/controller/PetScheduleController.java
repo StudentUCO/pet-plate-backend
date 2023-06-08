@@ -4,6 +4,7 @@ import com.iot.petplate.dto.PetScheduleDTO;
 import com.iot.petplate.service.FeederRequestService;
 import com.iot.petplate.service.PetScheduleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,15 @@ public class PetScheduleController {
     @PostMapping()
     public ResponseEntity<List<PetScheduleDTO>> createPetSchedule(@RequestBody List<PetScheduleDTO> petScheduleDTOS) {
         List<PetScheduleDTO> scheduleDTOList = petScheduleService.createPetSchedule(petScheduleDTOS);
-        feederRequestService.sendDataFedeer(scheduleDTOList);
+        feederRequestService.sendDataFeeder(scheduleDTOList);
         return ResponseEntity.ok(scheduleDTOList);
     }
+
+    @DeleteMapping("/{petId}")
+    public ResponseEntity<Void> deleteAllPetSchedule(@PathVariable Integer petId) {
+        petScheduleService.deleteAllPetSchedule(petId);
+        feederRequestService.sendEmptyDataFeederByPetId(petId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

@@ -2,6 +2,7 @@ package com.iot.petplate.controller;
 
 import com.iot.petplate.dto.PetDTO;
 import com.iot.petplate.dto.UserDTO;
+import com.iot.petplate.service.FeederRequestService;
 import com.iot.petplate.service.PetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PetController {
     private final PetService petService;
+    private final FeederRequestService feederRequestService;
 
     @GetMapping()
     public ResponseEntity<List<PetDTO>> getAllPetDTOListByUser() {
@@ -38,6 +40,7 @@ public class PetController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<PetDTO> delete(@PathVariable("id") Integer id) {
+        feederRequestService.sendEmptyDataFeederByPetId(id);
         return ResponseEntity.ok(petService.delete(id));
     }
 }

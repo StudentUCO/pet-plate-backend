@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface FeederRequestService {
 
-    void sendDataFedeer(List<PetScheduleDTO> petScheduleDTOS);
+    void sendDataFeeder(List<PetScheduleDTO> petScheduleDTOS);
+    void sendEmptyDataFeederByPetId(Integer petId);
 
 }

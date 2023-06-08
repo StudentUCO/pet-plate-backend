@@ -8,6 +8,10 @@ import java.util.List;
 
 public interface PetScheduleRepository {
     List<PetScheduleDTO> getAllPetScheduleByPet(Integer petId);
+
     List<PetScheduleDomain> createAll(List<PetScheduleDomain> petScheduleDomainList);
+
     void deleteAll(List<PetScheduleDomain> petScheduleDomainList);
+
+    void deleteAll(Integer petId);
 }
