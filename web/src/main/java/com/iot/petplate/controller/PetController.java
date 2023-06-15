@@ -35,12 +35,17 @@ public class PetController {
     public ResponseEntity<PetDTO> update(@RequestBody PetDTO petDTO) {
         UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         petDTO.setUser(userDTO);
-        return ResponseEntity.ok(petService.update(petDTO));
+        feederRequestService.sendEmptyDataFeederByPetId(petDTO.getId());
+        PetDTO petDTOUpdated = petService.update(petDTO);
+        return ResponseEntity.ok(petDTOUpdated);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<PetDTO> delete(@PathVariable("id") Integer id) {
-        feederRequestService.sendEmptyDataFeederByPetId(id);
+        PetDTO petDTOToDelete = petService.getById(id);
+        if (petDTOToDelete.getFeeder() != null && petDTOToDelete.getFeeder().getId() != null) {
+            feederRequestService.sendEmptyDataFeederByPetId(id);
+        }
         return ResponseEntity.ok(petService.delete(id));
     }
 }
