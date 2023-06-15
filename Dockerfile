@@ -4,6 +4,9 @@ WORKDIR /app
 
 COPY web/build/libs/*.jar app.jar
 
-EXPOSE 8080
+ENV ENVIRONMENT dev
+ENV PORT 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+EXPOSE ${PORT}
+
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=${ENVIRONMENT}", "-Dserver.port=${PORT}", "app.jar"]
