@@ -37,6 +37,11 @@ public class FeederService {
                 .orElseThrow(() -> new InvalidValueException(
                         "FeederDomain no existe en DB",
                         "No existe el alimentador que quiere eliminar"));
+        if (feederRepository.isFeederInUse(id) > 0) {
+            throw new InvalidValueException("Al intentar eliminar el id se violaria una restriccion de " +
+                    "clave foranea que se tiene con la tabla pet",
+                    "No es posible eliminar el alimentador debido a que esta siendo utilizado por una mascota");
+        }
         feederRepository.delete(feederDomain);
         return feederDomain.toDTO();
     }

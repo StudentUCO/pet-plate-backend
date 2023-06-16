@@ -42,4 +42,9 @@ public class FeederImpl implements FeederRepository {
     public void delete(FeederDomain feederDomain) {
         feederCrud.delete(new FeederEntity(feederDomain));
     }
+
+    @Override
+    public int isFeederInUse(Integer id) {
+        return feederCrud.isFeederInUse(id);
+    }
 }

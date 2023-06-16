@@ -13,4 +13,5 @@ public interface FeederRepository {
     FeederDomain create(FeederDomain feederDomain);
     FeederDomain update(FeederDomain feederDomain);
     void delete(FeederDomain feederDomain);
+    int isFeederInUse(Integer id);
 }
